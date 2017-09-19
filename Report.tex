@@ -1,0 +1,88 @@
+\documentclass[a4paper,oneside,onecolumn]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage{mathtools}
+\usepackage{color}
+\usepackage{siunitx}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[head=12pt,hmargin=3cm,vmargin=3cm]{geometry}
+
+\definecolor{codegray}{gray}{0.9}
+\newcommand{\code}[1]{\colorbox{codegray}{\texttt{#1}}}
+
+\pagestyle{fancy}
+
+\begin{document}
+
+\title{Laboratory Exercices 1 \\ Embedded Linux}
+\author{Julia Desmazes \\ Michael Nissen \\ ECE Paris}
+\date{\today}
+\maketitle
+\bigskip
+
+\noindent
+\textbf{1. How can the IP address of your RPi, be heard before authentication? In which configuration file in \texttt{/etc} is this setting made?}
+\newline
+\newline
+In Linux, the \texttt{/etc} folder contains all system related configuration files. Navigating to this directory and using \code{ls}, we can see a file called \texttt{/etc/rc.local}. This script is called on boot, and utilises the \code{hostname -I} program, to get the IP address. The IP address returend by \code{hostname -I} is then piped to a vocal synthesis program that reads it out loud, allowing us to hear it transmitted to headphones.
+\newline
+\newline
+\noindent
+\textbf{2. Which software is used for the vocal synthesis of the IP?}
+\newline
+\newline
+The software used for the vocal synthesis is named \texttt{festival}. As mentioned in the above question, the IP address is piped to the \texttt{festival} command which is called with the option \code{--tts}. This treats the argument in text-to-speech mode, causing it to be rendered as speech. The command in it's entirety is \code{hostname -I | festival -tts}.
+\newline
+\newline
+\noindent
+\textbf{3. Which configuration should be made to modify this setting by a new one allowing the sending of the IP to your personal mailbox?}
+\newline
+\newline
+Before starting we would need to need to install and configure a mailing service we would chose "mailutils" in order to use "mail". We would simply have to add a line in the script a usage of "mail":
+\textbf{mail -s <subject of mail> <my mail address> < < < \$\{ <variable containing our IP>\} (or) hostname -I }
+\newline
+\newline
+\noindent
+\textbf{4. Using the command \code{ifconfig}, retrieve the IP address of your RPi.}
+\newline
+\newline
+When calling \code{ifconfig} without any arguments supplied to the call, one will get a list of the different network interface configurations of ones operating system. One can then supply an argument of the specific interface that one is interested in. Following this, calling the command \code{ifconfig wlan0 inet}, we will get the information regarding the wlan0 interface, that contains the IP address of the Rapberry Pi.
+\newline
+\newline
+\noindent
+\textbf{5. How to scan the different WiFi networks detected by your dongle?}
+\newline
+\newline
+A build in command in Linux is the \code{iwlist}. This script is used to display additional information from a wireless interfaces. This will return quite a lot of information depending on how many networks are available around you. One way to shorten down the output to the terminal, is the \texttt{grep} only the \texttt{ESSID}, which is the SSID of the networks. The full command that one would run, to scan for surrounding networks, is then \code{iwlist wlan0 scan | grep ESSID}
+\newline
+\newline
+\noindent
+\textbf{6. Describe the content of the network configuration files \textff{/etc/wpa.conf} and \textff{/etc/network/interfaces}
+and guess the relationship between them.}
+\newline
+\newline
+The \texttt{wpa.conf}
+wpa.conf lists saved network configurations with the name, ssid and hash of the password, wheras interfaces lists all the the possible connection to the diffrent interfaces with there valide parameters. We can act upon the default behaviours regarding connecting to networks.
+\newline
+\newline
+\noindent
+\textbf{7. How the setting of the above files can be changed in order to make your RPi recognizes your home
+WiFi network? If you do it, don’t forget to make backups !}
+\newline
+\newline
+You would have to add an new configuration under network with ssid , password next to \#psk and our security key hash if we hade one under psk. This last would depend on the security our local networks security configuration, you would have to use the propur hash be it md5, shasum5 , ect ...
+\newline
+\newline
+\noindent
+\textbf{8. By which command the pre-configured image was created after the modification of the official lite
+version of Raspbian provided by the Raspberry Pi foundation?}
+\newline
+\newline
+We would use the "dd" commande to create a bootable image with usage :
+\textbf{dd if=<input dir> of=<file to create with .img format> count=<size of file in Mbs>}.
+
+Later you can additionaly use \textbf{mkfs <filesystem> -F <file to format>} to format your created file for a diffrent file system.
+
+\end{document}
