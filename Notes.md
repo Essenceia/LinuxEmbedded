@@ -60,6 +60,6 @@ minmax.o: minmax.c minmax.h
 	${GCC} -c minmax.c
 clean:
 	rm -f *.o main
-	```
+```
 	
 All scripts were added in the script folder, I will wright the explanations for eatch of them on the latex.
