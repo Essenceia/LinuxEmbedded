@@ -24,12 +24,12 @@ x)&&NUM=$(expr $NUM / 2 )&& head -n $NUM /etc/passwd
 
 ## The commands grep/sed and regular expressions
 
-1.grep '^[^:]*:[^:]*:[0-9]*[02468]:.' /etc/passwd | cut -d: -f1
+1.```bash grep '^[^:]*:[^:]*:[0-9]*[02468]:.' /etc/passwd | cut -d: -f1```
 
-2.sudo ifconfig wlan0 | grep 'inet '| awk '{print $2}'
+2.```bash sudo ifconfig wlan0 | grep 'inet '| awk '{print $2}'```
 
 ## Shell script
-'''bash
+```bash
 #!/bin/bash
 
 #init i
@@ -41,10 +41,10 @@ do
     #parse and modify output stream with sed
     echo $i":"$line | sed  's/^\([^:]*\):\([^:]*\):\([^:]*\):\([0-9]*\):\([0-9]*\)::\([^:]*\).*/\1) Username: \2 ,Password: encrypted, UID: \4, GID: \5, Home: \6/'
 done
-'''
+```
 
 ## GNU Make
-'''bash
+```makefile
 GCC=gcc
 ADD=minmax
 DEPS=minmax${HEADER_SUFFIX}
@@ -60,6 +60,6 @@ minmax.o: minmax.c minmax.h
 	${GCC} -c minmax.c
 clean:
 	rm -f *.o main
-	'''
+	```
 	
 All scripts were added in the script folder, I will wright the explanations for eatch of them on the latex.
