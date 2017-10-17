@@ -17,3 +17,49 @@
 	- flex -p file.txt 2> resu.txt 
 
 5. chown --reference=result.txt file.txt
+'''
+bash NUM=$(wc -l </etc/passwd
+x)&&NUM=$(expr $NUM / 2 )&& head -n $NUM /etc/passwd
+ | tail -1'''
+
+## The commands grep/sed and regular expressions
+
+1.```bash grep '^[^:]*:[^:]*:[0-9]*[02468]:.' /etc/passwd | cut -d: -f1```
+
+2.```bash sudo ifconfig wlan0 | grep 'inet '| awk '{print $2}'```
+
+## Shell script
+```bash
+#!/bin/bash
+
+#init i
+i=1
+#read line by line
+for line in $(cat /etc/passwd)
+do
+    i=$((i+1))#increment i
+    #parse and modify output stream with sed
+    echo $i":"$line | sed  's/^\([^:]*\):\([^:]*\):\([^:]*\):\([0-9]*\):\([0-9]*\)::\([^:]*\).*/\1) Username: \2 ,Password: encrypted, UID: \4, GID: \5, Home: \6/'
+done
+```
+
+## GNU Make
+```makefile
+GCC=gcc
+ADD=minmax
+DEPS=minmax${HEADER_SUFFIX}
+all: main
+
+main: main.o minmax.o
+	${GCC} -o main minmax.o main.o
+
+main.o: main.c minmax.h
+	${GCC} -c main.c
+
+minmax.o: minmax.c minmax.h
+	${GCC} -c minmax.c
+clean:
+	rm -f *.o main
+```
+	
+All scripts were added in the script folder, I will wright the explanations for eatch of them on the latex.
