@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=latex 2017.7.24)  17 OCT 2017 20:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=latex 2017.7.24)  17 OCT 2017 22:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -779,39 +779,39 @@ Underfull \hbox (badness 10000) in paragraph at lines 82--112
 [1
 
 ]
-
-Package Listings Warning: Text dropped after begin of listing on input line 112
-.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 121--128
+Underfull \hbox (badness 10000) in paragraph at lines 115--122
 
  []
 
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 129.
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 123.
 
-Underfull \hbox (badness 10000) in paragraph at lines 131--137
+Underfull \hbox (badness 10000) in paragraph at lines 125--131
 
  []
 
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 138.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 132.
 
-Underfull \hbox (badness 10000) in paragraph at lines 140--146
+Underfull \hbox (badness 10000) in paragraph at lines 134--140
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 152--179
+Overfull \hbox (4.32582pt too wide) in paragraph at lines 134--140
+\T1/cmr/m/n/10 To only dis-play the wifi IP adresse we first only printed out t
+he con-tent of wlan0[], then used [][][][][][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 146--173
 
  []
 
 [2]
-Overfull \hbox (337.56673pt too wide) in paragraph at lines 195--199
-\T1/cmr/m/n/10 stored in tools from our linux ker-nel com-pi-la-tion lab lo-cat
-ed in \T1/cmtt/m/n/10 */kernel labs/tools/arm-bcm2708/gcc-linaro-arm-linux-gnue
-abihf-raspbian-x64/bin/arm-linux-gnueabihf-\T1/cmr/m/n/10 .
+Overfull \hbox (23.22682pt too wide) in paragraph at lines 189--193
+\T1/cmtt/m/n/10 labs/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-
+x64/bin/arm-linux-gnueabihf-\T1/cmr/m/n/10 .
  []
 
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
@@ -820,23 +820,23 @@ File: lstlang1.sty 2015/06/04 1.6 listings language file
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
 )
-Underfull \hbox (badness 10000) in paragraph at lines 231--241
+Underfull \hbox (badness 10000) in paragraph at lines 225--235
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 231--241
+Underfull \hbox (badness 10000) in paragraph at lines 225--235
 
  []
 
 [3] [4] (./Report.aux) ) 
 Here is how much of TeX's memory you used:
- 17036 strings out of 494862
- 331274 string characters out of 6178593
- 519762 words of memory out of 5000000
- 20206 multiletter control sequences out of 15000+600000
+ 17037 strings out of 494862
+ 331283 string characters out of 6178593
+ 519727 words of memory out of 5000000
+ 20207 multiletter control sequences out of 15000+600000
  549559 words of font info for 75 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 39i,11n,51p,10379b,1238s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 39i,11n,51p,10379b,1237s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Report.dvi (4 pages, 51512 bytes).
+Output written on Report.dvi (4 pages, 50564 bytes).

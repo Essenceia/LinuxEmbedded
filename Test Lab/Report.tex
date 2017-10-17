@@ -107,16 +107,10 @@ One can create an alias using echo and redirecting it to the shell configuration
 \textbf{5. Propose a command that displays the middle line of \texttt{/etc/passwd} ?}
 \newline
 \newline
-In this commande we are usign \code{wc -l} to get the line count of \texttt{/etc/passwd} and storing it in a bash variable named NUM. Then we are dividing NUM by two \code{expr \$NUM /2} and start grabbing the line starting from this new line count with \code{head -n \$NUM /etc/passwd}. In order to only grabe one line from this line on we pipe the output to \code{tail -1}, witch grabe only the first line.
+In this commande we are using \code{wc -l} to get the line count of file \texttt{/etc/passwd} and storing it in a bash variable named NUM. Then we are dividing NUM by two \code{expr \$NUM /2} and start grabbing the line starting from this new line count with \code{head -n \$NUM /etc/passwd}. In order to only grabe one line from this line on we pipe the output to \code{tail -1}, witch grabe only the first line.
 \newline
-\begin{lstlisting}[language=bash,caption={bash version}]NUM=\$(wc -l </etc/passwd
-x)
-\& \& NUM=
-\$ (expr 
-\$ NUM / 2 )
-\&\& head -n 
- \$ NUM /etc/passwd
- | tail -1
+\begin{lstlisting}[language=bash,caption={bash version}]
+NUM=$(wc -l </etc/passwd)&&NUM=$(expr $NUM / 2 )&& head -n $NUM /etc/passwd | tail -1
 \end{lstlisting}
 \noindent
 \textbf{6. How to change the owner of a first file to the owner of a second one by using a command substitution based on the command \code{ls} and \code{cut} ?}
@@ -142,7 +136,7 @@ grep '\^[\^:]*:[\^:]*:[0-9]*[02468]:.' /etc/passwd | cut -d: -f1)
 , the WiFi IP address?}
 \newline
 \newline
-To only display the wifi IP adresse we first only printed out the content of wlan0\footnote{Refers to the wifi hardware.}, then used \code{grep 'inet } to select the line where the ipv4 IP addresse is displayed. Notice we added a space behinde inet, this was to avoid matching inet6. Afterwards we piped the output to \code{awk \$2} in order to select only the second motif\footnote{By default seperation of \code{awk} is the space, this can be changed with the -F argument.}, here our IP.
+To only display the wifi IP adresse we first only printed out the content of wlan0\footnote{Refers to the wifi hardware.}, then used \code{grep 'inet '} to select the line where the ipv4 IP addresse is displayed. Notice we added a space behinde inet, this was to avoid matching inet6. Afterwards we piped the output to \code{awk \$2} in order to select only the second motif\footnote{By default seperation of \code{awk} is the space, this can be changed with the \code{-F} argument.}, here our IP.
 \begin{lstlisting}[language=bash,caption={bash version}]
 sudo ifconfig wlan0 | grep 'inet '| awk '{print \$2}')
 \end{lstlisting}
@@ -173,7 +167,7 @@ in
 The script for this can be found in the \texttt{script} folder under the name \texttt{script3.sh}.
 \newline
 In this script we are using the \code{for} loop to read the file \texttt{/etc/passwd} line by line. Also we have a local value 
-\code{i} to keep trake of the line number.  For out \code{sed} commande we identifing substrings with our regex and refrencing them latter with \code{\\ <number>} pattern
+\code{i} to keep trake of the line number.  For the \code{sed} commande we identifing substrings with our regex \code{\\(<match substring>\\)}and refrencing them latter with \code{\\<number>} pattern
 %\footnote{We found out about this usage of sed with manual page \url{http://www.grymoire.com/Unix/Sed.htmluh-48}.} 
 in the latter part of our commande where we re-define the output format.
 \begin{lstlisting}[language=bash,caption={bash version}]
@@ -192,7 +186,7 @@ done
 
 \noindent
 \section*{GNU Make}
-In order to compile both nativly and cross-compile for out rassberypi we check at the beging of our makefile for the variable \code{CROSS COMPILE}. If it is set we compile with the cross compilation toolchain that we have stored in tools from our linux kernel compilation lab located in \texttt{*/kernel labs/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin/arm-linux-gnueabihf-}. If not this variable will not be set and we will be using the machines standard compiler: gcc or g++ , depending on the value given to \code{TMPGCC} at the begging of the makefile.\newline
+In order to compile both nativly and cross-compile for out rassberypi we check at the beging of our makefile for the variable \code{CROSS COMPILE}. If it is set we compile with the cross compilation toolchain that we have stored in tools from our linux kernel compilation lab located in \texttt{<it depends>/kernel labs/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin/arm-linux-gnueabihf-}. If not this variable will not be set and we will be using the machines standard compiler: gcc or g++ , depending on the value given to \code{TMPGCC} at the begging of the makefile.\newline
 To access \code{CROSS COMPILE} in the makefile we have to make sure the variable is exported to the bash \code{export CROSS COMPILE}.
 \newline
 The rest of the makefile is very standard : we generate object files based on there .c files and link them together to create our executable main. To clean we select all object file \code{*.o} and delete them as well as our generated executable.
