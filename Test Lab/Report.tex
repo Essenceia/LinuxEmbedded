@@ -132,7 +132,9 @@ whom UID is multiple of 2?}
 We use \code{grep} line by line on \texttt{/etc/passwd} and select all the UID's that finish by either 0,2,4,6,8. Then we pipe the output to cut where we delimite the output with \textbf{:} and select only the first match \code{cut -d: -f1}.
 \newline
 \newline
-\code{grep '\^[\^:]*:[\^:]*:[0-9]*[02468]:.' /etc/passwd | cut -d: -f1)}
+\begin{lstlisting}[language=bash]
+grep '\^[\^:]*:[\^:]*:[0-9]*[02468]:.' /etc/passwd | cut -d: -f1
+\end{lstlisting}
 
 \noindent
 \textbf{2. Propose a grep command that displays from the output of \code{ifconfig}, the WiFi IP address?}
@@ -141,8 +143,9 @@ We use \code{grep} line by line on \texttt{/etc/passwd} and select all the UID's
 To only display the wifi IP adresse we first only printed out the content of wlan0\footnote{Refers to the wifi hardware.}, then used \code{grep 'inet '} to select the line where the IPv4 IP addresse is displayed. Notice we added a space behind \texttt{inet}. This was to avoid matching inet6. Afterwards we piped the output to \code{awk \$2} in order to select only the second motif\footnote{By default seperation of \code{awk} is the space, this can be changed with the \code{-F} argument.}, here our IP.
 \newline
 \newline
-\code{sudo ifconfig wlan0 | grep 'inet '| awk '{print \$2}')}
-
+\begin{lstlisting}[language=bash]
+sudo ifconfig wlan0 | grep 'inet '| awk '{print \$2}'
+\end{lstlisting}
 \noindent
 \section*{Shell Script}
 \noindent
