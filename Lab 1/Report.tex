@@ -1,0 +1,87 @@
+\documentclass[a4paper,oneside,onecolumn]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage{mathtools}
+\usepackage{color}
+\usepackage{siunitx}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage[head=12pt,hmargin=3cm,vmargin=3cm]{geometry}
+
+\DisableLigatures[>,<]{encoding = T1,family=tt*} %
+
+\definecolor{codegray}{gray}{0.9}
+\newcommand{\code}[1]{\colorbox{codegray}{\texttt{#1}}}
+
+\pagestyle{fancy}
+
+\begin{document}
+
+\title{Laboratory Exercices 1 \\ Embedded Linux}
+\author{Julia Desmazes \\ Michael Nissen \\ ECE Paris}
+\date{\today}
+\maketitle
+\bigskip
+
+\noindent
+\textbf{1. How can the IP address of your RPi, be heard before authentication? In which configuration file in \texttt{/etc} is this setting made?}
+\newline
+\newline
+In Linux, the \texttt{/etc} folder contains all system related configuration files. Navigating to this directory and using \code{ls}, we can see a file called \texttt{/etc/rc.local}. This script is called on boot, and utilises the \code{hostname -I} program, to get the IP address. The IP address returend by \code{hostname -I} is then piped to a vocal synthesis program that reads it out loud, allowing us to hear it transmitted to headphones.
+\newline
+\newline
+\noindent
+\textbf{2. Which software is used for the vocal synthesis of the IP?}
+\newline
+\newline
+The software used for the vocal synthesis is named \texttt{festival}. As mentioned in the above question, the IP address is piped to the \texttt{festival} command which is called with the option \code{--tts}. This treats the argument in text-to-speech mode, causing it to be rendered as speech. The command in it's entirety is \code{hostname -I | festival -tts}.
+\newline
+\newline
+\noindent
+\textbf{3. Which configuration should be made to modify this setting by a new one allowing the sending of the IP to your personal mailbox?}
+\newline
+\newline
+Before starting one would need to need to install and configure a mailing service. One example to use is the \texttt{mailutils} which allows us to use the \code{mail} script. We would simply have to add a line in the script a usage of \code{mail}:
+\code{mail -s <subject\_of\_mail> <my\_mail\_address> <\$\{<\_IP>\}>}
+\newline
+\newline
+\noindent
+\textbf{4. Using the command \code{ifconfig}, retrieve the IP address of your RPi.}
+\newline
+\newline
+When calling \code{ifconfig} without any arguments supplied to the call, one will get a list of the different network interface configurations of ones operating system. One can then supply an argument of the specific interface that one is interested in. Following this, calling the command \code{ifconfig wlan0 inet}, we will get the information regarding the wlan0 interface, that contains the IP address of the Rapberry Pi.
+\newline
+\newline
+\noindent
+\textbf{5. How to scan the different WiFi networks detected by your dongle?}
+\newline
+\newline
+A build in command in Linux is the \code{iwlist}. This script is used to display additional information from a wireless interfaces. This will return quite a lot of information depending on how many networks are available around you. One way to shorten down the output to the terminal, is the \texttt{grep} only the \texttt{ESSID}, which is the SSID of the networks. The full command that one would run, to scan for surrounding networks, is then \code{iwlist wlan0 scan | grep ESSID}
+\newpage
+\noindent
+\textbf{6. Describe the content of the network configuration files \texttt{/etc/wpa.conf} and \\ \texttt{/etc/network/interfaces}
+and guess the relationship between them.}
+\newline
+\newline
+Starting off by looking at the network interfaces, in \texttt{/etc/network/interfaces}, we should be able to see all known network interfaces to the Raspberry Pi. On the first line, we see \code{auto wlan0}, which will start the wlan interface at boot. At the bottom of the file we see the line \code{allow-hotplug wlan0} and \code{iface wlan0 inet dchp} which allows wlan as a network connection method, and line \code{wpa-conf /etc/wpa.conf} set that as the configuration file to use for creating the network connection.
+The \texttt{wpa.conf} file then defines the network of which to connect, using the \code{ssid=<your\_network\_name>}, \code{\#psk=<your\_network\_passcode>}, and \\ \code{psk=<your\_network\_hashcode>} which can either be \texttt{RSN} or \texttt{WPA}.
+\newline
+\newline
+\noindent
+\textbf{7. How the setting of the above files can be changed in order to make your RPi recognizes your home
+WiFi network?}
+\newline
+\newline
+One would change the \texttt{wpa.conf} file, with the a \texttt{SSID} and \texttt{passcode} that corresponds to ones home network. The reason one should take care doing so, and create a backup of the wpa.conf file, is that the security hash code would be lost. When setting it up at home, the last configuration would depend on the security of ones local network configuration. This hash code would have to be created on the user end using something like \texttt{MD5}, \texttt{SHA1}, \texttt{WPA/WPA2}, ect.
+\newline
+\newline
+\noindent
+\textbf{8. By which command the pre-configured image was created after the modification of the official lite
+version of Raspbian provided by the Raspberry Pi foundation?}
+\newline
+\newline
+To create a image file in Linux, one can take use of the script \code{dd}. This can copy a file, convert, and format it according to some supplied operands. Converting a file or directory to a bootable image, we can then use the following command: \code{dd if=<input\_dir> of=<output\_file> bs=<block\_size>}. 
+
+\end{document}
