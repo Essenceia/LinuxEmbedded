@@ -56,71 +56,47 @@
 \maketitle
 \bigskip
 
-\section*{Command line, environment variables, and user permissions}
+\section{Download / Set the good version of Linux sources}
 
-\noindent 
-\textbf{1. In the bash prompt, what is the meaning of the character \~{} ?}
+\noindent }
+To execute the tasks for this report, the first step is to get the Raspberry Pi cross-compilation tools, and specific version of the linux kernal that one wants to patch. This is going to be done using \code{git clone}, which ofcourse assumes a working installation of \texttt{git}.
 \newline
-\newline
-The tilde (\~{}) character refers to the users home directory. The full path is \texttt{/home/user}.
-\newline
-\newline
-\noindent
-\textbf{2. Explain the behaviour of running in the order \code{VV=3}, \code{export VV}, \code{bash}, \code{unset VV}, \code{exit} and finally \code{echo \$VV}?}
-\newline
-\newline
-Environment variables is a value, named at runtime, that can affect the way running processes behave. A running process will be able to query the value of an environment variable for example, to discover a location to store files. When creating an environment variable, it will persist in the shell in which it was initalised.
-\newline
-When exporting the creatied environment variable by using \code{export VARNAME}, it sets the environment variable not only for current shell, but all other processes started from that shell.
-\begin{itemize}
-	\item Set local variable VV to 3
-	\item Export local variable as environment variable
-	\item Enter the bash shell
-	\item Unest the local variable
-	\item Exit the bash shell
-	\item Display the environment variable
-\end{itemize}
-\noindent
-\textbf{3. How to run \texttt{/home/user/ls} instead of \texttt{/usr/bin/ls} automatically by typing \code{ls} without changin the behaviour of the other commands?}
-\newline
-\newline
-An easy way to achive this kind of behaviour, is to create a shell alias. A shell alias is simply a shortcut to reference a command. It can be used to avoid typing long commands or as a mean to run increase efficiency.
-In this example, we want to run the \texttt{/home/user/ls} command instead of the buildin one located in \texttt{/usr/bin/ls}. As the \texttt{/usr/bin} folder is added to the path of the shell, one is able to run any script from that folder by simply entering the name of that script.
-\newline
-As we don't necessarily want to add the \texttt{home/user} folder to the path, we can create an alias to the specific file we need. 
-\newline
-\newline
-One can create an alias using echo and redirecting it to the shell configuration file: 
-\newline
-\code{echo alias 'ls="/home/user/ls"' >> .zshrc} where the last file is your shell configuration file.
-\newline
-\newline
-\noindent
-\textbf{4. How to provide \texttt{file.txt} as input of the command \code{flex} and copy its \texttt{stderr} to \texttt{resu.txt}?}
-\newline
-\newline
-3 different streams. Use 2> to redirect the content on stderr. (-p writes the performance report to stdderr)
-\newline
-\code{flex -p file.txt 2> resu.txt }
-\newline
-\newline
-\noindent
-\textbf{5. Propose a command that displays the middle line of \texttt{/etc/passwd} ?}
-\newline
-\newline
-In this commande we are using \code{wc -l} to get the line count of file \texttt{/etc/passwd} and storing it in a bash variable named NUM. Then we are dividing NUM by two \code{expr \$NUM / 2} and start grabbing the line starting from this new line count with \code{head -n \$NUM /etc/passwd}. In order to only grab one line from this line, we pipe the output to \code{tail -1}, witch grab only the first line.
-\newline
-\begin{lstlisting}[language=bash]
-NUM=$(wc -l </etc/passwd)&&NUM=$(expr $NUM / 2 )&& head -n $NUM /etc/passwd | tail -1
+To get the latest version of the kernel source code and the cross-compilation tools, the following commands with be copied to the terminal:
+\begin{lstlisting}[language=shell]
+	git clone https://github.com/raspberrypi/tools.git
+	git cone -b rpi-4.4.y https://github.com/raspberrypi/linux.git
 \end{lstlisting}
+One now has to make sure to get the same configuration as is used by ones Raspberry Pi during the kernel compilation, which can be done by checking out the \texttt{git branch} that corresponds to the hash of the Linux kernel running on the Raspberry Pi.
+\newline
+This will be done by by running the shells script seen in Code Snippet \ref{lst:git_hash}. This shell script will grep the firmware hash found on the Raspberry pi, and then get the \texttt{git hash} from the github link relative to the hardware hash.
+\begin{lstlisting}[language=shell, caption={Shell script to get Linux kernel git hash}, label={lst:git_hash}]
+#!/bin/bash
 
-\noindent
-\textbf{6. How to change the owner of a first file to the owner of a second one by using a command substitution based on the command \code{ls} and \code{cut} ?}
-\newline
-\newline
-Easy way is to just use the build in functionality of \code{chown}. No need to reinvent the wheel:
-\newline
-\code{chown --reference=result.txt file.txt}
+PLATFORM=`uname -s` 
+
+if [ ${PLATFORM} = "Darwin" ]
+then
+    CMD="gunzip -c"
+elif [ ${PLATFORM} = "Linux" ]
+then
+    CMD="zcat"
+else
+    echo "Sorry, the platform ${PLATFORM} is not supported !!!"    
+    exit -1
+fi
+
+FWHASH=`${CMD} /usr/share/doc/raspberrypi-bootloader/changelog.Debian.gz | grep -m 1 'as of' | awk '{print $NF}'`
+#echo "Firmware Hashcode: fwhash = $FWHASH"
+
+LINUXHASH=`wget -qO- https://raw.github.com/raspberrypi/firmware/$FWHASH/extra/git_hash`
+
+echo "Linux Hashcode: linuxhash = $LINUXHASH"
+\end{lstlisting}
+When one has figured out the \texttt{git hash}, one can change directory to the linux git repository and checkout the respective brach by the following command: 
+\begin{lstlisting}[language=shell]
+cd linux
+git checkout <git_hash>
+\end{lstlisting}
 
 \section*{The \code{grep}/\code{sed} and Ragular Expressions}
 
