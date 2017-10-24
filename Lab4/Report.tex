@@ -1,0 +1,273 @@
+\documentclass[a4paper,oneside,onecolumn]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathtools}
+\usepackage{color}
+\usepackage{siunitx}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{}
+\usepackage[head=12pt,hmargin=2.5cm,vmargin=2.5cm]{geometry}
+
+\renewcommand*\lstlistingname{Code Snippet}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
+
+\DisableLigatures[>,<]{encoding = T1,family=tt*} %
+
+\definecolor{codegray}{gray}{0.9}
+\newcommand{\code}[1]{\colorbox{codegray}{\texttt{#1}}}
+
+\pagestyle{fancy}
+
+\begin{document}
+
+\title{Test Lab \\ Linux Shell / GNU Make \\ Embedded Linux}
+\author{Julia Desmazes \\ Michael Nissen}
+\date{\today}
+\maketitle
+\bigskip
+
+\section*{Command line, environment variables, and user permissions}
+
+\noindent 
+\textbf{1. In the bash prompt, what is the meaning of the character \~{} ?}
+\newline
+\newline
+The tilde (\~{}) character refers to the users home directory. The full path is \texttt{/home/user}.
+\newline
+\newline
+\noindent
+\textbf{2. Explain the behaviour of running in the order \code{VV=3}, \code{export VV}, \code{bash}, \code{unset VV}, \code{exit} and finally \code{echo \$VV}?}
+\newline
+\newline
+Environment variables is a value, named at runtime, that can affect the way running processes behave. A running process will be able to query the value of an environment variable for example, to discover a location to store files. When creating an environment variable, it will persist in the shell in which it was initalised.
+\newline
+When exporting the creatied environment variable by using \code{export VARNAME}, it sets the environment variable not only for current shell, but all other processes started from that shell.
+\begin{itemize}
+	\item Set local variable VV to 3
+	\item Export local variable as environment variable
+	\item Enter the bash shell
+	\item Unest the local variable
+	\item Exit the bash shell
+	\item Display the environment variable
+\end{itemize}
+\noindent
+\textbf{3. How to run \texttt{/home/user/ls} instead of \texttt{/usr/bin/ls} automatically by typing \code{ls} without changin the behaviour of the other commands?}
+\newline
+\newline
+An easy way to achive this kind of behaviour, is to create a shell alias. A shell alias is simply a shortcut to reference a command. It can be used to avoid typing long commands or as a mean to run increase efficiency.
+In this example, we want to run the \texttt{/home/user/ls} command instead of the buildin one located in \texttt{/usr/bin/ls}. As the \texttt{/usr/bin} folder is added to the path of the shell, one is able to run any script from that folder by simply entering the name of that script.
+\newline
+As we don't necessarily want to add the \texttt{home/user} folder to the path, we can create an alias to the specific file we need. 
+\newline
+\newline
+One can create an alias using echo and redirecting it to the shell configuration file: 
+\newline
+\code{echo alias 'ls="/home/user/ls"' >> .zshrc} where the last file is your shell configuration file.
+\newline
+\newline
+\noindent
+\textbf{4. How to provide \texttt{file.txt} as input of the command \code{flex} and copy its \texttt{stderr} to \texttt{resu.txt}?}
+\newline
+\newline
+3 different streams. Use 2> to redirect the content on stderr. (-p writes the performance report to stdderr)
+\newline
+\code{flex -p file.txt 2> resu.txt }
+\newline
+\newline
+\noindent
+\textbf{5. Propose a command that displays the middle line of \texttt{/etc/passwd} ?}
+\newline
+\newline
+In this commande we are using \code{wc -l} to get the line count of file \texttt{/etc/passwd} and storing it in a bash variable named NUM. Then we are dividing NUM by two \code{expr \$NUM / 2} and start grabbing the line starting from this new line count with \code{head -n \$NUM /etc/passwd}. In order to only grab one line from this line, we pipe the output to \code{tail -1}, witch grab only the first line.
+\newline
+\begin{lstlisting}[language=bash]
+NUM=$(wc -l </etc/passwd)&&NUM=$(expr $NUM / 2 )&& head -n $NUM /etc/passwd | tail -1
+\end{lstlisting}
+
+\noindent
+\textbf{6. How to change the owner of a first file to the owner of a second one by using a command substitution based on the command \code{ls} and \code{cut} ?}
+\newline
+\newline
+Easy way is to just use the build in functionality of \code{chown}. No need to reinvent the wheel:
+\newline
+\code{chown --reference=result.txt file.txt}
+
+\section*{The \code{grep}/\code{sed} and Ragular Expressions}
+
+\noindent 
+\textbf{1. Propose a \code{grep} command that displays user names in \texttt{/etc/passwd}
+whom UID is multiple of 2?}
+\newline
+\newline
+We use \code{grep} line by line on \texttt{/etc/passwd} and select all the UID's that finish by either 0,2,4,6,8. Then we pipe the output to cut where we delimite the output with \textbf{:} and select only the first match \code{cut -d: -f1}.
+\newline
+\newline
+\begin{lstlisting}[language=bash]
+grep '\^[\^:]*:[\^:]*:[0-9]*[02468]:.' /etc/passwd | cut -d: -f1
+\end{lstlisting}
+
+\noindent
+\textbf{2. Propose a grep command that displays from the output of \code{ifconfig}, the WiFi IP address?}
+\newline
+\newline
+To only display the wifi IP adresse we first only printed out the content of wlan0\footnote{Refers to the wifi hardware.}, then used \code{grep 'inet '} to select the line where the IPv4 IP addresse is displayed. Notice we added a space behind \texttt{inet}. This was to avoid matching inet6. Afterwards we piped the output to \code{awk \$2} in order to select only the second motif\footnote{By default seperation of \code{awk} is the space, this can be changed with the \code{-F} argument.}, here our IP.
+\newline
+\newline
+\begin{lstlisting}[language=bash]
+sudo ifconfig wlan0 | grep 'inet '| awk '{print \$2}'
+\end{lstlisting}
+\noindent
+\section*{Shell Script}
+\noindent
+\textbf{Write a Shell script that displays the entries of \texttt{/etc/passwd}, using\code{sed} and \code{for} loops}
+\newline
+\newline
+\texttt{Username: <username>, Password: encrypted, UID: <uid>, GID: <gid>, Home: <home\_directory>}
+\newline
+where \emph{i} is the line number of the corresponding <username> in \texttt{/etc/passwd}.
+\newline
+\newline
+The script for this can be found in the \texttt{script} folder under the name \texttt{script3.sh}.
+\newline
+In this script we are using the \code{for} loop to read the file \texttt{/etc/passwd} line by line. Also we have a local value \code{i} to keep trake of the line number. For the \code{sed} commande we identifing substrings with our regex \code{\\(<match substring>\\)}and refrencing them latter with \code{\\<number>} pattern in the latter part of our commande where we re-define the output format.
+%\footnote{We found out about this usage of sed with manual page \url{http://www.grymoire.com/Unix/Sed.htmluh-48}.} 
+\begin{lstlisting}[language=bash,caption={RegEx in Shell Script}]
+#!/bin/bash
+
+#init i
+i=1
+#read line by line
+for line in $(cat /etc/passwd)
+do
+    #increment i
+    i=$((i+1))
+
+    #parse and modify output stream with sed
+    echo $i":"$line | sed  's/^\([^:]*\):\([^:]*\):\([^:]*\):\([0-9]*\):\([0-9]*\)::\([^:]*\).*/\1) Username: \2 ,Password: encrypted, UID: \4, GID: \5, Home: \6/'
+done
+\end{lstlisting}
+
+
+\section*{GNU Make}
+
+\noindent
+In order to compile both nativly and cross-compile for out RaspberryPi we check at the start of our makefile for the variable \code{CROSS\_COMPILE}. If set, we compile with the cross compilation toolchain that we have stored in tools from our linux kernel compilation lab located in \texttt{/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin/arm-linux-gnueabihf-}. If not, this variable will not be set and we will be using the machines standard compiler: gcc or g++ , depending on the value given to \code{TMPGCC} at the start of the makefile.
+\newline
+To access \code{CROSS\_COMPILE} in the makefile we have to make sure the variable is exported to the bash \code{export CROSS\_COMPILE}.
+\newline
+The rest of the makefile is very standard; we generate an object files based on ther .c files and link them together to create our executable main. To clean we select all object file \code{*.o} and delete them as well as our generated executable.
+
+\begin{lstlisting}[language=bash,caption={MinMax Makefile}]
+# if we wanted to cross compile to rpi we would use the toolchain we have downloaded for the kernel compilation : arm-linux-gnueabi-gcc, but to use it we would have to specify a path. In our case we have exported the path to the folder in the vaiable CROSS_COMPILE
+
+TMPGCC=gcc
+
+ifeq (${CROSS_COMPILE},'')
+    echo "CROSS_COMPILE is not set";
+    GCC=${TMPGCC}
+else
+    # to avoid recursice refrencing to GCC variable
+    GCC=${CROSS_COMPILE}${TMPGCC}
+endif
+
+ADD=minmax
+DEPS=minmax${HEADER_SUFFIX}
+
+all: main
+
+main: main.o minmax.o
+	${GCC} -o main minmax.o main.o
+
+main.o: main.c minmax.h
+	${GCC} -c main.c
+
+minmax.o: minmax.c minmax.h
+	${GCC} -c minmax.c
+clean:
+	rm -f *.o main
+\end{lstlisting}
+
+\section*{Managing Process, System Call \code{fork()}}
+
+\noindent
+The system call \code{fork()} is used to create processes and returns a process ID. When calling \code{fork()}, it creates a new process which becomes a \textit{child} process of the caller. After a child process has been created, both the \textit{child} and \textit{parent} process will execute the next instruction following the \code{fork()} system call. Therefore, one has to distingush the difference between the two processes.
+\newline
+This can be done by testing the process ID returned by the system call.
+\newline
+\newline
+If \code{fork()} returns a negative value, the creation of a child process was unsuccessful. It will return a zero to the newly created \textit{child} process, and it will return a possitive value, the \texttt{pid} of the \textit{child} process, to the parent.
+\newline
+\newline
+Therefore it is simple to check what which is the child process - this can be seen in Code Snippet 1 below.
+\begin{lstlisting}[language=c, caption=Managing system calls]
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main() {
+
+    // The process ID
+    pid_t pid;
+
+    // Store the process ID
+    pid = fork();
+
+    // Check for the process ID
+    if (pid == 0) {
+
+        // Child process
+
+        // Create a new fork
+        pid = fork();
+
+        // Check for the process ID
+        if (pid == 0) {
+
+            // Grand child process
+            printf("Child of Child");
+        } else {
+
+            // Child process
+            printf("Child");
+        }
+    } else {
+
+        // This is the parent process
+        printf("Parent");
+    }
+}
+\end{lstlisting}
+
+
+
+\end{document}
