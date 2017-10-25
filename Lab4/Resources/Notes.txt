@@ -1,0 +1,6 @@
+all commands tryed so fare for compilation :
+make clean
+mv tmp.config .config //get config file
+make menuconfig
+make bZImage <-- we are here
+make modules
