@@ -116,7 +116,9 @@ host$ head Makefile
 \end{lstlisting}
 Now that one know the specific version of the Linux kernel, it is time to download the latest \texttt{PREMEPT-RT} patch that corresponds to ones kernel version - if follows the format: \texttt{version.patch-level.sub-level}.
 \newline
-To download the patch from the patch from \texttt{kernel.org} using the \code{wget} command like so: \code{wget https://cd.kernel.org/pub/linux/kernel/projects/rt/4.9/patch-4.9.47-rt47.patch.gz}
+To download the patch from the patch from \texttt{kernel.org} using the \code{wget} command like so: 
+\newline
+\code{wget https://cd.kernel.org/pub/linux/kernel/projects/rt/4.9/patch-4.9.47-rt47.patch.gz}
 \newline
 \newline
 Now one can actually start patching the kernel sources by executing the following commands in succession:
@@ -124,6 +126,35 @@ Now one can actually start patching the kernel sources by executing the followin
 host$ gunzip patch-<version.patch-level.sub-level>-rt<last>.patch.gz
 host$ cat patch-<version.patch-level.sub-level>-rt<last>.patch | patch -p1
 \end{lstlisting}
+One can now create a folder named \texttt{rt-modules} under your project folder - at the same level as the \texttt{linux} and \texttt{tools} folders, and export an environment variable \texttt{INSTALL\_MOD\_PATH} that points to that folder:
+\begin{lstlisting}
+host$ mkdir rt-modules
+host$ cd rt-modules
+host$ export INTALL_MOD_PATH=$PWD
+\end{lstlisting}
+Here \code{\$PWD} is the path to the current directory.
 
+\section{Configure Cross-compilation}
+
+Before starting the cross-compilation, one is going to specify the architecture for which to compile, the cross-compiler that ones wishes to use, and the kernel that one is trying to compile for. This is done by exporting some specific environment variables that is used by the makefile:
+\begin{lstlisting}
+host$ export ARCH=arm KERNEL=kernel7
+host$ export CROSS_COMPILE=$PWD/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/arm-linux-gnueaihf-
+\end{lstlisting}
+Now, to configure the kernel in an appropriate way, one can use the existing kernel configuration from the Raspberry Pi. This configuration file can be generatied using the \code{modprobe} command, and then copy that generated file from the Raspberry Py over to the \texttt{linux/} folder on the host machine using the \code{scp} command. Finaly, extract the content of the \texttt{config.gz} into a \texttt{.config} file:
+\begin{lstlisting}
+host$ sudo modprobe configs
+host$ scp pi@193.169.0.26:/proc/config.gz /home/user/kernel_labs/linux
+host$ zcat -c config.gz > .config
+\end{lstlisting}
+Now that one has created a default \texttt{.config} file, it is time to costumise the kernel using the \code{sudo make menuconfig} which opens the GUI seen in Figure \ref{fig:menuconfig}. For the purpose of this lab assignment, we are going to enable the \texttt{Fully Preemptible Kernel} setting, and the \texttt{High Resolution Timer Support}.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.95\textwidth]{resources/menuconfig.png}
+	\caption{The \texttt{menuconfig} GUI}
+	\label{fig:menuconfig}
+\end{figure}
+
+\section{Build the new Kernel and Modules}
 
 \end{document}
