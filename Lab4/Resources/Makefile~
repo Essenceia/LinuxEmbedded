@@ -1,0 +1,9 @@
+#Makerfile to compile our hello world modules called module.c
+obj-m += module.o
+K_VERSION = $(shell uname -r)
+#Main make command
+all:
+	make -C /lib/modules/$(K_VERSION)/build M=$(PWD) modules
+#make clean commande
+clean:
+	make -C /lib/modules/$(K_VERSION)/build M=$(PWD) clean
