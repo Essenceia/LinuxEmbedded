@@ -146,11 +146,11 @@ host$ scp pi@193.169.0.26:/proc/config.gz /home/user/kernel_labs/linux
 host$ zcat -c config.gz > .config
 \end{lstlisting}
 Now that one has created a default \texttt{.config} file, it is time to costumise the kernel using the \code{sudo make menuconfig} which opens the GUI seen in Figure \ref{fig:menuconfig}. For the purpose of this lab assignment, we are going to enable the \texttt{Fully Preemptible Kernel} setting, and the \texttt{High Resolution Timer Support}.
-\begin{figure}[!h]
+\begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{Resources/meunconfig.png}
-	\caption{The \texttt{menuconfig} GUI}
-	\label{fig:menuconfig}
+	\includegraphics[width=0.95\textwidth]{resources/meunconfig.png}
+	\caption{caption}
+	\label{fig:label}
 \end{figure}
 
 \newpage
@@ -165,7 +165,7 @@ Once the modules are compiled we can install them to the path scpecified by \cod
 \begin{lstlisting}
 host$ make -j < 2* number of CPU > modules_intall
 \end{lstlisting}
-Our next step is to create is to replace bootable kernel image based with the ones in our compiled sources. We created this image with zImage but it still needs some post-processing to support the dtbs type file system. To do theys changes we use \code{mkknling} a small utilitay found in tools that essentially justs addes \texttt{boot-uncompressed.txt} and \texttt{args-uncompressed.txt} to our image and creats a new image named kernel7.img in our recently created directory \texttt{\\boot}.
+Our next step is to create is to replace bootable kernel image based with the ones in our compiled sources. We created this image with zImage but it still needs some post-processing to support the dtbs type file system. To do theys changes we use \code{mkknling} a small utilitay found in tools that essentially justs adds \texttt{boot-uncompressed.txt} and \texttt{args-uncompressed.txt} to our image and creats a new image named kernel7.img in our recently created directory \texttt{\\boot}.
 \begin{lstlisting}
 host$ mkdir $INSTALL_MOD_PATH/boot/
 host$ ./scripts/mkknlimg ./arch/arm/boot/zImage $INSTALL_MOD_PATH/boot/$KERNEL.img
@@ -223,11 +223,12 @@ pi$chrt -r -p <priority from 1/99> <process name> <args>
 pi$chrt -f -p <priority from 1/99> <process name> <args>
 \end{lstlisting}
 \section{Boot time optimization}
-One thing we can notice is how slow the pi's boot is, according to \code{systemd-analyze time} the boot sequence takes un an entire 33.927 seconds, 31.531 of thoses for userspace. In otherwords there are more than 31 seconds of the boot sequence on witch we can have an effect. What is intresting is that when we go more into detail we realise that the dhcpcd services use up an entire 16.374 seconds. 
-\begin{figure}[!h]
+One thing we can notice is how slow the pi's boot is, according to \code{systemd-analyze time} the boot sequence takes un an entire 33.927 seconds, 31.531 of thoses for userspace. In otherwords there are more than 31 seconds of the boot sequence on witch we can have an effect. What is intresting is that when we go more into detail we realise that the dhcpcd services use up an entire 16.374 seconds.
+\begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{Resources/bootdyn.png}
+	\includegraphics[width=0.95\textwidth]{resources/bootdyn.png}
 	\caption{Boot sequence with dynamic ip}
+	\label{fig:label}
 \end{figure}
 To reduce this time it was decided that sinc dhcp services are responable ( amoungs many other talsks ) for managing dynamic ip attributions, a way to speed it up would be to set un a static ip.\newline
 To do this we included our static network configurations into \code{/etc/dhcpcd.config}.
@@ -243,13 +244,17 @@ static domain_name_servers=8.8.8.8.8.8.4.4
 \end{lstlisting}
 We didn't configure wlan0 because, in case this failed we would have to manually alter the config files from the sd card.\newline
 After reboot, we re-tested our boot time and it had significanly got shorter down to 20.993 seconds and 18.684 for userspace. Our dhcp service now only used up 6.907 seconds of boot time. If we wanted to ge further we could start dissabling services like bluetooth or hciuart that take up boot time and that we currently have no use for.
-\begin{figure}[!h]
+\begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{Resources/bootdyn.png}
+	\includegraphics[width=0.95\textwidth]{resources/bootdyn.png}
 	\caption{Boot sequence with dynamic ip}
+	\label{fig:label}
 \end{figure}
+
 \section{Kernel modules}
+
 \subsection{Create and compiling modules}
+
 Code for hello.c:
 \begin{lstlisting}
 #include <linux/module.h>       
