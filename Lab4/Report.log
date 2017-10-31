@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.9.27)  27 OCT 2017 20:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.9.27)  31 OCT 2017 19:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -808,12 +808,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 191--192
 <resources/bootdyn.png, id=25, 3486.02374pt x 2700.0875pt>
 File: resources/bootdyn.png Graphic file (type png)
 <use resources/bootdyn.png>
-Package pdftex.def Info: resources/bootdyn.png used on input line 229.
+Package pdftex.def Info: resources/bootdyn.png used on input line 232.
 (pdftex.def)             Requested size: 432.48051pt x 334.9557pt.
 [4] [5 <./resources/bootdyn.png (PNG copy)>]
 File: resources/bootdyn.png Graphic file (type png)
 <use resources/bootdyn.png>
-Package pdftex.def Info: resources/bootdyn.png used on input line 249.
+Package pdftex.def Info: resources/bootdyn.png used on input line 252.
 (pdftex.def)             Requested size: 432.48051pt x 334.9557pt.
 [6] [7]
 (/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab4/
@@ -828,7 +828,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  17193 strings out of 492995
  330566 string characters out of 6132704
- 520693 words of memory out of 5000000
+ 521693 words of memory out of 5000000
  20443 multiletter control sequences out of 15000+600000
  80904 words of font info for 111 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -845,7 +845,7 @@ cal/texlive/2017/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/
 -dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2017/texmf-dist/fonts
 /type1/public/lm/lmtt10.pfb>
 Output written on "/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/L
-inuxEmbedded/Lab4/Report.pdf" (7 pages, 497512 bytes).
+inuxEmbedded/Lab4/Report.pdf" (7 pages, 497821 bytes).
 PDF statistics:
  74 PDF objects out of 1000 (max. 8388607)
  51 compressed objects within 1 object stream
