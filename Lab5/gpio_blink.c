@@ -1,7 +1,6 @@
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/init.h>
-
 #include <linux/gpio.h>
 
 MODULE_AUTHOR("Julia Desmazes");
@@ -14,8 +13,7 @@ struct tty_driver *my_driver;
 char kbledstatus = 0;
 
 // arm_freq = 1200 for RPIv3
-#define HZ 1200
-#define BLINK_DELAY HZ/5
+//#define HZ 1200
 #define LED_ON 0x01
 #define LED_OFF 0x00
 //gpio defined
@@ -26,7 +24,7 @@ static void my_timer_func(unsigned long ptr) {
     int *pstatus = (int *)ptr;
     *pstatus= ((*pstatus == LED_ON) ? LED_OFF : LED_ON);
     gpio_set_value(GPIO_PIN_NUMB, *pstatus);
-    my_timer.expires = jiffies + BLINK_DELAY;
+    my_timer.expires = jiffies + HZ;
     add_timer(&my_timer);
 }
 
@@ -40,12 +38,12 @@ static int __init start_blink(void) {
 
     if(err < 0){
         printk(KERN_ALERT"Could not configure pin to output init failed");
-        return -1;
+        return -1;}
     //init timer
     init_timer(&my_timer);
     my_timer.function = my_timer_func;
     my_timer.data = (unsigned long)&kbledstatus;
-    my_timer.expires = jiffies + BLINK_DELAY;
+    my_timer.expires = jiffies + HZ;
     add_timer(&my_timer);
     return 0;
 }

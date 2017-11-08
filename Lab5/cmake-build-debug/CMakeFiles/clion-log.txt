@@ -1,4 +1,1 @@
-/home/pookie/Downloads/clion-2017.1.2/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/pookie/Documents/ING4/LinuxEmebeded/TD1/Lab5
--- Configuring done
--- Generating done
--- Build files have been written to: /home/pookie/Documents/ING4/LinuxEmebeded/TD1/Lab5/cmake-build-debug
+CMakeLists.txt not found in /home/pookie/Documents/ING4/LinuxEmebeded/TD1/Lab5
