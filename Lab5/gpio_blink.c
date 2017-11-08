@@ -11,12 +11,15 @@ MODULE_DESCRIPTION("Blink LED modules");
 struct timer_list my_timer;
 struct tty_driver *my_driver;
 char kbledstatus = 0;
+
+// arm_freq = 1200 for RPIv3
+#define HZ 1200
 #define BLINK_DELAY HZ/5
 #define LED_ON 0x01
-#define LED_OFF 0xFF
+#define LED_OFF 0x00
 
 //gpio defined
-#define GPIO_PIN_NUMB 0X1A
+#define GPIO_PIN_NUMB 4
 
 static void my_timer_func(unsigned long ptr) {
     printk(KERN_INFO"Blink led");
@@ -30,7 +33,7 @@ static void my_timer_func(unsigned long ptr) {
 static int __init start_blink(void) {
     int err;
     
-    printk(KERN_INFO"Loading blink led module, blinking shall start at a rate of 1 second.\n");
+    printk(KERN_INFO "Loading blink led module, blinking shall start at a rate of 1 second.\n");
     
     //init gpio
     err = gpio_direction_output(GPIO_PIN_NUMB, LED_OFF);
@@ -56,7 +59,6 @@ static void __exit stop_blink(void) {
 
     //turn off led
     gpio_set_value(GPIO_PIN_NUMB, LED_OFF);
-
 }
 
 module_init(start_blink);
