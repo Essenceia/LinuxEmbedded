@@ -12,12 +12,10 @@ struct timer_list my_timer;
 struct tty_driver *my_driver;
 char kbledstatus = 0;
 
-<<<<<<< HEAD
+
 #define BLINK_DELAY HZ/5
-=======
 // arm_freq = 1200 for RPIv3
-//#define HZ 1200
->>>>>>> b59e16af645a2befd52007d4faea9fbef0608674
+
 #define LED_ON 0x01
 #define LED_OFF 0x00
 //gpio defined
@@ -41,13 +39,13 @@ static int __init start_blink(void) {
     err = gpio_direction_output(GPIO_PIN_NUMB, LED_OFF);
 
     if(err < 0){
-<<<<<<< HEAD
+
         printk(KERN_ALERT "Could not configure pin to output init failed");
         return -1;
-=======
+
         printk(KERN_ALERT"Could not configure pin to output init failed");
         return -1;}
->>>>>>> b59e16af645a2befd52007d4faea9fbef0608674
+
     //init timer
     init_timer(&my_timer);
     my_timer.function = my_timer_func;
