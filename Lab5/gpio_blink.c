@@ -1,9 +1,9 @@
 #include <linux/module.h>
 #include <linux/kernel.h>
 #include <linux/init.h>
-
+#include<linux/gpio.h>
 MODULE_AUTHOR("Julia Desmazes");
-MODULE_LICENSE("GPLv3");
+MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Blink LED modules");
 
 //timer
@@ -12,7 +12,7 @@ struct tty_driver *my_driver;
 char kbledstatus = 0;
 #define BLINK_DELAY HZ/5
 #define LED_ON 0x01
-#define LED_OFF 0xFF
+#define LED_OFF 0x00
 //gpio defined
 #define GPIO_PIN_NUMB 0X1A
 
@@ -33,7 +33,8 @@ printk(KERN_INFO"Loading blink led module, blinking shall start at a rate of 1 s
     //init gpio
     err = gpio_direction_output(GPIO_PIN_NUMB, LED_OFF);
     if(err < 0){
-        printk(KERN_ERR)
+        printk(KERN_ALERT"Could not configure pin to output init failed");
+        return -1;
     }
 //init timer
 init_timer(&my_timer);

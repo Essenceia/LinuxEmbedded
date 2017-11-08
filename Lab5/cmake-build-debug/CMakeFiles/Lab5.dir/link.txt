@@ -1,0 +1,1 @@
+/usr/bin/cc   -pthread -g   CMakeFiles/Lab5.dir/gpio_blink.c.o  -o Lab5 
