@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /home/qruzz/bin/clion-2017.2.3/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5
 -- The C compiler identification is GNU 5.4.0
 -- The CXX compiler identification is GNU 5.4.0
@@ -16,3 +17,6 @@
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug
+=======
+CMakeLists.txt not found in /home/pookie/Documents/ING4/LinuxEmebeded/TD1/Lab5
+>>>>>>> b59e16af645a2befd52007d4faea9fbef0608674
