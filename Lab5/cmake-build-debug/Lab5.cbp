@@ -87,6 +87,9 @@
 		<Unit filename="/home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/gpio_blink.c">
 			<Option target="Lab5"/>
 		</Unit>
+		<Unit filename="/home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/gpio_blink_sysfs.c">
+			<Option target="Lab5"/>
+		</Unit>
 		<Unit filename="/home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

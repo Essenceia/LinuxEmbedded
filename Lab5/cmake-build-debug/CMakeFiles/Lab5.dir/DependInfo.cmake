@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "/home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/gpio_blink.c" "/home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug/CMakeFiles/Lab5.dir/gpio_blink.c.o"
+  "/home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/gpio_blink_sysfs.c" "/home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug/CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

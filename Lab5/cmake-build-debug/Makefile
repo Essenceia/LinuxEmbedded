@@ -150,6 +150,33 @@ gpio_blink.c.s:
 	$(MAKE) -f CMakeFiles/Lab5.dir/build.make CMakeFiles/Lab5.dir/gpio_blink.c.s
 .PHONY : gpio_blink.c.s
 
+gpio_blink_sysfs.o: gpio_blink_sysfs.c.o
+
+.PHONY : gpio_blink_sysfs.o
+
+# target to build an object file
+gpio_blink_sysfs.c.o:
+	$(MAKE) -f CMakeFiles/Lab5.dir/build.make CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.o
+.PHONY : gpio_blink_sysfs.c.o
+
+gpio_blink_sysfs.i: gpio_blink_sysfs.c.i
+
+.PHONY : gpio_blink_sysfs.i
+
+# target to preprocess a source file
+gpio_blink_sysfs.c.i:
+	$(MAKE) -f CMakeFiles/Lab5.dir/build.make CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.i
+.PHONY : gpio_blink_sysfs.c.i
+
+gpio_blink_sysfs.s: gpio_blink_sysfs.c.s
+
+.PHONY : gpio_blink_sysfs.s
+
+# target to generate assembly for a file
+gpio_blink_sysfs.c.s:
+	$(MAKE) -f CMakeFiles/Lab5.dir/build.make CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.s
+.PHONY : gpio_blink_sysfs.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,6 +189,9 @@ help:
 	@echo "... gpio_blink.o"
 	@echo "... gpio_blink.i"
 	@echo "... gpio_blink.s"
+	@echo "... gpio_blink_sysfs.o"
+	@echo "... gpio_blink_sysfs.i"
+	@echo "... gpio_blink_sysfs.s"
 .PHONY : help
 
 

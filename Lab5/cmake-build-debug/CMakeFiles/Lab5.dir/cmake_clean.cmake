@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Lab5.dir/gpio_blink.c.o"
+  "CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.o"
   "Lab5.pdb"
   "Lab5"
 )
