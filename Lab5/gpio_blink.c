@@ -3,7 +3,7 @@
 #include <linux/init.h>
 #include <linux/gpio.h>
 
-MODULE_AUTHOR("Julia Desmazes");
+MODULE_AUTHOR("Julia Desmazes, Michael Nissen");
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Blink LED modules");
 

@@ -9,9 +9,9 @@
 #include <linux/fs.h>
 #include <linux/kobject.h>
 
+MODULE_AUTHOR("Michael Nissen, Julia Desmazes");
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("Blink LED module: 1s period");
-MODULE_AUTHOR("Michael Nissen");
+MODULE_DESCRIPTION("Blink LED module: sysfs");
 
 #define DEVICE_NAME	"blink"
 #define CLASS_NAME	"external_led"
