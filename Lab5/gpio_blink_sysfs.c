@@ -34,9 +34,6 @@ struct device *blink = NULL;
 // Function prototype
 static void blink_timer(void);
 
-// This function is called when the value of the period is changed
-static ssize_t store_period(struct kobject *kobj, struct kobj_attribute *attr, char *buf, size_t count);
-
 // Store the value of the input in the buffer, then store in the global period
 static ssize_t store_period(struct kobject *kobj, struct kobj_attribute *attr, char *buf, size_t count) {
 
