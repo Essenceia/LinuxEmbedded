@@ -34,19 +34,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/qruzz/bin/clion-2017.2.3/bin/cmake/bin/cmake
+CMAKE_COMMAND = /Applications/CLion.app/Contents/bin/cmake/bin/cmake
 
 # The command to remove a file.
-RM = /home/qruzz/bin/clion-2017.2.3/bin/cmake/bin/cmake -E remove -f
+RM = /Applications/CLion.app/Contents/bin/cmake/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5
+CMAKE_SOURCE_DIR = "/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug
+CMAKE_BINARY_DIR = "/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Lab5.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/Lab5.dir/flags.make
 
 CMakeFiles/Lab5.dir/gpio_blink.c.o: CMakeFiles/Lab5.dir/flags.make
 CMakeFiles/Lab5.dir/gpio_blink.c.o: ../gpio_blink.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/Lab5.dir/gpio_blink.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Lab5.dir/gpio_blink.c.o   -c /home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/gpio_blink.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/Lab5.dir/gpio_blink.c.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Lab5.dir/gpio_blink.c.o   -c "/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5/gpio_blink.c"
 
 CMakeFiles/Lab5.dir/gpio_blink.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Lab5.dir/gpio_blink.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/gpio_blink.c > CMakeFiles/Lab5.dir/gpio_blink.c.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5/gpio_blink.c" > CMakeFiles/Lab5.dir/gpio_blink.c.i
 
 CMakeFiles/Lab5.dir/gpio_blink.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Lab5.dir/gpio_blink.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/gpio_blink.c -o CMakeFiles/Lab5.dir/gpio_blink.c.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5/gpio_blink.c" -o CMakeFiles/Lab5.dir/gpio_blink.c.s
 
 CMakeFiles/Lab5.dir/gpio_blink.c.o.requires:
 
@@ -83,16 +83,16 @@ CMakeFiles/Lab5.dir/gpio_blink.c.o.provides.build: CMakeFiles/Lab5.dir/gpio_blin
 
 CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.o: CMakeFiles/Lab5.dir/flags.make
 CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.o: ../gpio_blink_sysfs.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.o   -c /home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/gpio_blink_sysfs.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.o   -c "/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5/gpio_blink_sysfs.c"
 
 CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/gpio_blink_sysfs.c > CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.i
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5/gpio_blink_sysfs.c" > CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.i
 
 CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/gpio_blink_sysfs.c -o CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.s
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5/gpio_blink_sysfs.c" -o CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.s
 
 CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.o.requires:
 
@@ -117,7 +117,7 @@ Lab5: CMakeFiles/Lab5.dir/gpio_blink.c.o
 Lab5: CMakeFiles/Lab5.dir/gpio_blink_sysfs.c.o
 Lab5: CMakeFiles/Lab5.dir/build.make
 Lab5: CMakeFiles/Lab5.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable Lab5"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable Lab5"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Lab5.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -135,6 +135,6 @@ CMakeFiles/Lab5.dir/clean:
 .PHONY : CMakeFiles/Lab5.dir/clean
 
 CMakeFiles/Lab5.dir/depend:
-	cd /home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5 /home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5 /home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug /home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug /home/qruzz/Documents/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug/CMakeFiles/Lab5.dir/DependInfo.cmake --color=$(COLOR)
+	cd "/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5" "/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5" "/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug" "/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug" "/Users/qruzz/Documents/ECE Paris/5. Semester/EmbeddedLinux/LinuxEmbedded/Lab5/cmake-build-debug/CMakeFiles/Lab5.dir/DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/Lab5.dir/depend
 
