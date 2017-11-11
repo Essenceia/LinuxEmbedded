@@ -9,7 +9,7 @@
 #include <linux/fs.h>
 #include <linux/kobject.h>
 
-MODULE_AUTHOR("Michael Nissen, Julia Desmazes");
+MODULE_AUTHOR("Michael Nissen");
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Blink LED module: sysfs");
 

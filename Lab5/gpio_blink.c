@@ -3,7 +3,7 @@
 #include <linux/init.h>
 #include <linux/gpio.h>
 
-MODULE_AUTHOR("Julia Desmazes, Michael Nissen");
+MODULE_AUTHOR("Julia Desmazes");
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Blink LED modules");
 
@@ -23,6 +23,7 @@ char kbledstatus = 0;
 #define GPIO_PIN_NUMB 4
 
 static void my_timer_func(unsigned long ptr) {
+
     printk(KERN_INFO "Blink led");
     int *pstatus = (int *)ptr;
     *pstatus= ((*pstatus == LED_ON) ? LED_OFF : LED_ON);
@@ -32,6 +33,7 @@ static void my_timer_func(unsigned long ptr) {
 }
 
 static int __init start_blink(void) {
+
     int err;
     
     printk(KERN_INFO "Loading blink led module, blinking shall start at a rate of 1 second.\n");
@@ -39,13 +41,14 @@ static int __init start_blink(void) {
     //init gpio
     err = gpio_direction_output(GPIO_PIN_NUMB, LED_OFF);
 
-    if(err < 0){
+    if(err < 0) {
 
         printk(KERN_ALERT "Could not configure pin to output init failed");
         return -1;
 
         printk(KERN_ALERT"Could not configure pin to output init failed");
-        return -1;}
+        return -1;
+    }
 
     //init timer
     init_timer(&my_timer);

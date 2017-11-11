@@ -51,7 +51,7 @@
 \begin{document}
 
 \title{Lab 5 \\ GPIO and Interrupt Management Using Kernel Modules \\ Embedded Linux}
-\author{Julia Desmazes \\ Michael Nissen}
+\author{Michael Nissen}
 \date{\today}
 \maketitle
 \bigskip
@@ -60,12 +60,81 @@
 
 \subsection{Simple GPIO Blink Module}
 
+In this section, a simple module was created to display a start message and blink a LED using a timer. This timer will start with an initial period of 1 second when it is loaded. When the module is unloaded, it will display a termination message and stop blinking the LED. The code in Code Snippet \ref{lst:init_blink_simple} contains the code to handle the initialisation of the LED blinking.
+\newline
+\newline
+Firstly, the initialisation function, \code{\_\_init}, will print a message saying that it is loading the module, and that it will blink with a period of 1 second. It will then start by setting a direction for the output of a specified \texttt{GPIO} pin and the initial configuration as the LED being set low. This is done with the \code{gpio\_direction\_output()} function. If an error occurs during this operation, this will be printed to the terminal. If everything is successfull, a timer will be initialised and the function to be called on expiration is defined as \code{my\_timer.function}. The expiration time of the timer is defined with \code{my\_timer.expires}, which is set to 1 second. Finally the timer will be started, and this will now run until the module is unloaded.
+
+\begin{lstlisting}[language=c, label={lst:init_blink_simple}, caption={Initialisation Function}]
+#define LED_ON 0x01
+#define LED_OFF 0x00
+
+//gpio defined
+#define GPIO_PIN_NUMB 4
+
+static int __init start_blink(void) {
+
+    int err;
+    
+    printk(KERN_INFO "Loading blink led module, blinking shall start at a rate of 1 second.\n");
+    
+    //init gpio
+    err = gpio_direction_output(GPIO_PIN_NUMB, LED_OFF);
+
+    if(err < 0) {
+
+        printk(KERN_ALERT "Could not configure pin to output init failed");
+        return -1;
+
+        printk(KERN_ALERT"Could not configure pin to output init failed");
+        return -1;
+    }
+
+    //init timer
+    init_timer(&my_timer);
+    my_timer.function = my_timer_func;
+    my_timer.data = (unsigned long)&kbledstatus;
+    my_timer.expires = jiffies + HZ;
+    add_timer(&my_timer);
+    return 0;
+}
+\end{lstlisting}
+
+When the module is unloaded, the \code{\_\_exit} macro function is run. This will start off by printing a status message saying that the module is being unloaded and that the blinking will siese to happen. It will then delete the timer and turn off the \texttt{GPIO} pin. This can be seen in Code Snippet \ref{lst:exit_blink_simple} below. 
+
+\begin{lstlisting}[language=c, label={lst:exit_blink_simple}, caption={Initialisation Function}]
+static void __exit stop_blink(void) {
+
+    printk(KERN_INFO "Blink module is beeing unloaded , blinking will stop\n");
+    
+    //delete timer
+    del_timer(&my_timer);
+
+    //turn off led
+    gpio_set_value(GPIO_PIN_NUMB, LED_OFF);
+}
+\end{lstlisting}
+
+When the timer expires, the code seen in Code Snippet \ref{lst:blink_simple} will be executed. This will print that it is blinking the LED and then check the status of the LED. If the LED is set \texttt{HIGH} it will set the LED \texttt{LOW}, otherwise it will set it \texttt{HIGH}. This is done by the shorthand \\ \code{status == LED\_ON ? <if statement is true> : <statement is false>}. It will then set the appropriate value to the \texttt{GPIO} pin, and set a new expiration time for the timer and start it over again.
+
+\begin{lstlisting}[language=c, label={lst:blink_simple}, caption={Initialisation Function}]
+static void my_timer_func(unsigned long ptr) {
+
+    printk(KERN_INFO "Blink led");
+    int *pstatus = (int *)ptr;
+    *pstatus= ((*pstatus == LED_ON) ? LED_OFF : LED_ON);
+    gpio_set_value(GPIO_PIN_NUMB, *pstatus);
+    my_timer.expires = jiffies + HZ;
+    add_timer(&my_timer);
+}
+\end{lstlisting}
+
 \subsection{sysfs-based User Interface}
 
 \noindent
 The goal here is to create a \texttt{sysfs}-based user interface that allows the user to change the LED blinking frequency at runtime. When the module is loading, it is initially going to display a message and blink the LED using a default timer with a period of 1 second.
 \newline
-In the Code Snippet 1 below, we can see the \code{\_\_init} function, that is a macro used to mark some functions or initialized data as an `initialisation' function. The kernel can then take this as a hint that the function is used only during the initialisation phase, and free up used memory resources after. Essentially, the kernel build system looks for all of the functions flagged with \code{\_\_init}, across all of the pieces of the kernel, and arranges them so that they will all be in the same block of memory. Then, when the kernel boots, it can free that one block of memory at once.
+In the Code Snippet \ref{lst:initial_blink} below, we can see the \code{\_\_init} function, that is a macro used to mark some functions or initialized data as an `initialisation' function. The kernel can then take this as a hint that the function is used only during the initialisation phase, and free up used memory resources after. Essentially, the kernel build system looks for all of the functions flagged with \code{\_\_init}, across all of the pieces of the kernel, and arranges them so that they will all be in the same block of memory. Then, when the kernel boots, it can free that one block of memory at once.
 \newline
 \newline
 The code starts by printing a message to the terminal. It is then requsting a single \texttt{GPIO} pin with an initial setup using the \code{gpio\_request\_one}. As seen in the comments for the code, it takes the arguments of the \texttt{GPIO} pin number, a flag the specified the initial \texttt{GPIO} configuration, and a label with a literal description string of this \texttt{GPIO}. The rusult is stored in a global \code{result} variable, that we can use to check if the request and initialisation of the \texttt{GPIO} pin was successful or not. If \code{result} is not 0, it will print error message to the terminal saying that it could not initialise the \texttt{GPIO} pin, otherwise it will print a statement saying it was successfull.
@@ -116,7 +185,7 @@ Now that we have our initial configuration up and running, we want to register a
 A class is defined by an instance of \code{struct} class. Each class needs a unique name, which is how the class appears under \texttt{/sys/class}.
 \newline
 \newline
-If we take a look at Code Snippet 2, we start off by creating a \code{struct} class structure using the \code{class\_create} function. We pass in the module that owns the class, and a unique string for the name of the class - this is defined in the \code{\#define CLASS\_NAME} at the start of the code. We then check if there was an error creating the class - if there was, we print out an error message saying that the creation of the device class has failed and return the error, otherwise we print a success statement, saying it was created.
+If we take a look at Code Snippet \ref{lst:device}, we start off by creating a \code{struct} class structure using the \code{class\_create} function. We pass in the module that owns the class, and a unique string for the name of the class - this is defined in the \code{\#define CLASS\_NAME} at the start of the code. We then check if there was an error creating the class - if there was, we print out an error message saying that the creation of the device class has failed and return the error, otherwise we print a success statement, saying it was created.
 \newline
 \newline
 We then go on to register the device object with \texttt{sysfs} using the \code{device\_create} which takes as arguments, the class it should be registered to, the parent struct device, the \texttt{dev\_t} to be added, and a unique string for the device name. As name of the class has been defined as \texttt{external\_led} and the name of the device \texttt{blink}, the device object can be found under \texttt{/sys/class/external\_led/blink}.
@@ -172,7 +241,7 @@ We define the name, permission, and functions to be executed when using the attr
 \newline
 As we gave the file the name \texttt{period}, it can be written to by echoing an integer value into the file placed in \texttt{/sys/class/external\_led/blink/period}.
 \newline
-This can be seen in Code Snippet 3, below.
+This can be seen in Code Snippet \ref{lst:sysfs}, below.
 
 \begin{lstlisting}[language=c, label={lst:sysfs}, caption={Creating a \texttt{sysfs} Attribute File}]
 // Device attribute descriptor: <attribute name, permission, function, function>
@@ -201,7 +270,7 @@ static int __init start_blink(void) {
 By unloading the module, the extention shall delete the \texttt{sysfs}-based interface, display a termination message, delete the timer, stop blinking the LED, and release the \texttt{GPIO} request. All of this is done using the \code{\_\_exit} macro. The \code{\_\_exit} macro is used to deallocate any and all resources it has acquired, as well as any hardware it may have activated. The exit routine is the last chance that the module has to perform these operations, or it may leave the system in an unstable state.
 \newline
 \newline
-Taking a look at the code in Code Snippet 4, we start by setting a value of low on the \texttt{GPIO} pin to turn off the LED, we free up the \texttt{GPIO} pin, deactivate the timer, remove and unregister the device class and object, destroying the class structure and removing the \texttt{sysfs} attribute file from its own method.
+Taking a look at the code in Code Snippet \ref{lst:exit}, we start by setting a value of low on the \texttt{GPIO} pin to turn off the LED, we free up the \texttt{GPIO} pin, deactivate the timer, remove and unregister the device class and object, destroying the class structure and removing the \texttt{sysfs} attribute file from its own method.
 
 \begin{lstlisting}[language=c, label={lst:exit}, caption={Unloading of the Module}]
 static void __exit stop_blink(void) {
@@ -241,7 +310,7 @@ Last but not least, we have the function that is to be executed when the timer e
 \newline
 The function will then investigate the status of the LED using the global variable \code{led\_status} - is it on or is it off, and determine the correct behavior based on the status. If the LED is on, we set the value of the \texttt{GPIO} pin to 0 with \code{gpio\_set\_value()}, set the \code{led\_status} to 0 and print a status message saying that the LED was turned off. If the LED is off, the opposite is happening.
 \newline
-The expiration time of the timer is then set to the value specified in the period \texttt{sysfs} attribute file, and the the timer is started again. This can be seen in Code Snippet 5, below.
+The expiration time of the timer is then set to the value specified in the period \texttt{sysfs} attribute file, and the the timer is started again. This can be seen in Code Snippet \ref{lst:blink_timer}, below.
 
 \begin{lstlisting}[language=c, label={lst:blink_timer}, caption={The Blink Function to be Executed on Timer End}]
 unsigned int led_status = LED_ON;
@@ -273,6 +342,8 @@ static void blink_timer() {
 \end{lstlisting}
 
 \section{Button-Controlled LED Blink Module}
+
+Julia was supposed to write this section, but I was unable to get in contact with her regarding her parts, so unfortunatly, I had to exclude this part from the report. The report in its intirety has been written by Michael.
 
 \begin{thebibliography}{9}
 \bibitem{linuxgit} 
