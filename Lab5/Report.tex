@@ -73,7 +73,7 @@ The code starts by printing a message to the terminal. It is then requsting a si
 We then initialise our timer by \code{init\_timer(\&my\_timer)}, set an expiration time (1 second), and define what function will be executed once the timer expires. We want to execute our \code{blink\_timer} function, that handles the blinking. We that print out a status message saying that the timer has been initialised, and start the timer.
 \newline
 The timer LED should now be starting with an initial configuration of \texttt{HIGH}, and blinking on and off every 1 second.
-\begin{lstlisting}[language=c, label={lst:initial_blink}, caption={Initial configuration of LED}]
+\begin{lstlisting}[language=c, label={lst:initial_blink}, caption={Initial Configuration of LED}]
 static int __init start_blink(void) {
 
     printk("Blink :: start module :\n");
@@ -171,8 +171,10 @@ We now go on to create a \texttt{sysfs} attribute file for the device using the 
 We define the name, permission, and functions to be executed when using the attribute file, and then we create the device file passing in the device and the pointer to the address of the the \code{kobj\_attribute}. We then check if the device file was succesfully created or not, and print out a relevant message depending on the result.
 \newline
 As we gave the file the name \texttt{period}, it can be written to by echoing an integer value into the file placed in \texttt{/sys/class/external\_led/blink/period}.
+\newline
+This can be seen in Code Snippet 3, below.
 
-\begin{lstlisting}[language=c, label={lst:sysfs}, caption={Creating a \texttt{sysfs} attribute file}]
+\begin{lstlisting}[language=c, label={lst:sysfs}, caption={Creating a \texttt{sysfs} Attribute File}]
 // Device attribute descriptor: <attribute name, permission, function, function>
 static struct kobj_attribute period_attr = __ATTR(period, 0644, NULL, store_period);
 
@@ -199,7 +201,7 @@ static int __init start_blink(void) {
 By unloading the module, the extention shall delete the \texttt{sysfs}-based interface, display a termination message, delete the timer, stop blinking the LED, and release the \texttt{GPIO} request. All of this is done using the \code{\_\_exit} macro. The \code{\_\_exit} macro is used to deallocate any and all resources it has acquired, as well as any hardware it may have activated. The exit routine is the last chance that the module has to perform these operations, or it may leave the system in an unstable state.
 \newline
 \newline
-Taking a look at the code in Code Snippet 3, we start by setting a value of low on the \texttt{GPIO} pin to turn off the LED, we free up the \texttt{GPIO} pin, deactivate the timer, remove and unregister the device class and object, destroying the class structure and removing the \texttt{sysfs} attribute file from its own method.
+Taking a look at the code in Code Snippet 4, we start by setting a value of low on the \texttt{GPIO} pin to turn off the LED, we free up the \texttt{GPIO} pin, deactivate the timer, remove and unregister the device class and object, destroying the class structure and removing the \texttt{sysfs} attribute file from its own method.
 
 \begin{lstlisting}[language=c, label={lst:exit}, caption={Unloading of the Module}]
 static void __exit stop_blink(void) {
@@ -232,6 +234,41 @@ static void __exit stop_blink(void) {
     device_remove_file(blink, &period_attr);
 
     printk(KERN_INFO "BLINK :: The module has been unloaded\n");
+}
+\end{lstlisting}
+
+Last but not least, we have the function that is to be executed when the timer expires. This function will perform a simple investigation of the initial value of the \texttt{jiffies}. \texttt{jiffies} is a global variable which only usage is to store the number of ticks occured since system start-up. On kernel boot-up, jiffies is initialised to a special initial value, and it is incremented by one for each timer interrupt. Since there are \texttt{HZ} ticks occuring in one second, there are \texttt{HZ jiffies} in a second.
+\newline
+The function will then investigate the status of the LED using the global variable \code{led\_status} - is it on or is it off, and determine the correct behavior based on the status. If the LED is on, we set the value of the \texttt{GPIO} pin to 0 with \code{gpio\_set\_value()}, set the \code{led\_status} to 0 and print a status message saying that the LED was turned off. If the LED is off, the opposite is happening.
+\newline
+The expiration time of the timer is then set to the value specified in the period \texttt{sysfs} attribute file, and the the timer is started again. This can be seen in Code Snippet 5, below.
+
+\begin{lstlisting}[language=c, label={lst:blink_timer}, caption={The Blink Function to be Executed on Timer End}]
+unsigned int led_status = LED_ON;
+
+static void blink_timer() {
+
+    // Investigate initial value of jiffies
+    printk(KERN_INFO "Jiffies %lu :", jiffies);
+
+    // If the LED is on - turn it off / else turn it on
+    if (led_status) {
+
+        gpio_set_value(GPIO_PIN_NUMB, LED_OFF);
+        led_status = 0;
+        printk(KERN_INFO "SET :: LED OFF\n");
+    } else {
+
+        gpio_set_value(GPIO_PIN_NUMB, LED_ON);
+        led_status = 1;
+        printk(KERN_INFO "SET :: LED ON\n");
+    }
+
+    // Set expiration time in jiffies - convert period to milliseconds
+    my_timer->expires = jiffies + HZ * period / 1000;
+
+    // Start the timer
+    add_timer(&my_timer);
 }
 \end{lstlisting}
 
