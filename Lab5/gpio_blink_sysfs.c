@@ -60,20 +60,21 @@ static int __init start_blink(void) {
         printk(KERN_INFO "ERROR :: Failed to initialise the GPIO PIN: %d\n", GPIO_PIN_NUMB);
 
         return result;
+    } else {
+        
+        printk(KERN_INFO "SUCCESS :: GPIO PIN was successfully allocated\n");
     }
-
-    printk(KERN_INFO "SUCCESS :: GPIO PIN was successfully allocated\n");
 
     // Initialise the timer
     init_timer(&my_timer);
 
     // Set expiration time in jiffies - convert period to milliseconds
-    my_timer.expires = jiffies + HZ*period/1000;
+    my_timer->expires = jiffies + HZ*period/1000;
 
     // Define the function to be executed upon timer expire
-    my_timer.function = blink_timer;
+    my_timer->function = blink_timer;
 
-    my_timer.data = 0;
+    my_timer->data = 0;
 
     printk(KERN_INFO "STATUS :: The timer has been initialized\n");
 
@@ -175,7 +176,7 @@ static void blink_timer() {
     }
 
     // Set expiration time in jiffies - convert period to milliseconds
-    my_timer.expires = jiffies + HZ * period / 1000;
+    my_timer->expires = jiffies + HZ * period / 1000;
 
     // Start the timer
     add_timer(&my_timer);
